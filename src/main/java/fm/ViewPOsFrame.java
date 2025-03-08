@@ -1,19 +1,61 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package fm;
 
-package com.mycompany.purchasemanager;
+import Classes.FinanceManager;
+import com.mycompany.purchasemanager.*;
+import javax.swing.table.DefaultTableModel;
+import Classes.purchaseOrder;
+
+import Classes.purchaseOrder;
 
 /**
  *
- * @author ahmed
+ * @author abdul
  */
-public class viewPO extends javax.swing.JFrame {
+public class ViewPOsFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form viewPO
-     */
-    public viewPO() {
+    private FinanceManager fm;
+    public ViewPOsFrame() {
         initComponents();
+       loadItemsIntoTable();
+     
     }
 
+private void loadItemsIntoTable() {
+    purchaseOrder o = new purchaseOrder();
+    DefaultTableModel allItemsModel = o.displayAll();
+    DefaultTableModel filteredModel = new DefaultTableModel();
+
+    // Set column identifiers for the table
+    filteredModel.setColumnIdentifiers(new Object[]{
+        "PO ID", "Date", "Supplier ID", "Item ID", "Quantity", "Total Amount", "Status"
+    });
+
+    // Filter out "Paid" POs and add the rest to the filtered model
+    for (int i = 0; i < allItemsModel.getRowCount(); i++) {
+        String status = allItemsModel.getValueAt(i, 6).toString(); // Assuming "Status" is in the 7th column
+        if (!"Paid".equalsIgnoreCase(status)) { // Exclude rows with "Paid" status
+            filteredModel.addRow(new Object[]{
+                allItemsModel.getValueAt(i, 0), // PO ID
+                allItemsModel.getValueAt(i, 1), // Date
+                allItemsModel.getValueAt(i, 2), // Supplier ID
+                allItemsModel.getValueAt(i, 3), // Item ID
+                allItemsModel.getValueAt(i, 4), // Quantity
+                allItemsModel.getValueAt(i, 5), // Total Amount
+                status // Status
+            });
+        }
+    }
+
+    // Set the filtered model to the table
+    loadItemsIntoTable.setModel(filteredModel);
+}
+
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -23,128 +65,89 @@ public class viewPO extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        testFrame21 = new de.wannawork.jcalendar.TestFrame2();
-        testFrame22 = new de.wannawork.jcalendar.TestFrame2();
-        localeStrings1 = new de.wannawork.jcalendar.LocaleStrings();
-        localeStrings2 = new de.wannawork.jcalendar.LocaleStrings();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jCalendarPanel1 = new de.wannawork.jcalendar.JCalendarPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jCalendarPanel2 = new de.wannawork.jcalendar.JCalendarPanel();
-        jButton2 = new javax.swing.JButton();
+        loadItemsIntoTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        closeButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("To :");
-
-        jButton1.setText("Back");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        loadItemsIntoTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        loadItemsIntoTable.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                loadItemsIntoTableComponentShown(evt);
             }
         });
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        loadItemsIntoTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                loadItemsIntoTablePropertyChange(evt);
+            }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(loadItemsIntoTable);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("List of POs");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setText("View POs Frame");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("From :");
-
-        jButton2.setText("Search");
+        closeButton.setText("Back");
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(280, 280, 280)
+                .addGap(227, 227, 227)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCalendarPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(92, 92, 92))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(294, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(223, 223, 223)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(178, 178, 178)
-                    .addComponent(jLabel3)
-                    .addContainerGap(448, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(226, 226, 226)
-                    .addComponent(jCalendarPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(279, Short.MAX_VALUE)))
+                .addGap(0, 24, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(closeButton)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCalendarPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(210, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(207, 207, 207)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(28, 28, 28)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(389, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(24, 24, 24)
-                    .addComponent(jCalendarPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(247, Short.MAX_VALUE)))
+                .addGap(45, 45, 45)
+                .addComponent(jLabel1)
+                .addGap(47, 47, 47)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.setVisible(false);
-        purchaseManagerMain ob = new purchaseManagerMain();
-        ob.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void loadItemsIntoTableComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_loadItemsIntoTableComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loadItemsIntoTableComponentShown
 
-    /**
-     * @param args the command line arguments
-     */
+    private void loadItemsIntoTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_loadItemsIntoTablePropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loadItemsIntoTablePropertyChange
+
+    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+    closeButton.addActionListener(e -> dispose());        // TODO add your handling code here:
+    }//GEN-LAST:event_closeButtonActionPerformed
+
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -159,37 +162,29 @@ public class viewPO extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(viewPO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewPOsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(viewPO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewPOsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(viewPO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewPOsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(viewPO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewPOsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new viewPO().setVisible(true);
+                new ViewPOsFrame().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private de.wannawork.jcalendar.JCalendarPanel jCalendarPanel1;
-    private de.wannawork.jcalendar.JCalendarPanel jCalendarPanel2;
+    private javax.swing.JButton closeButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private de.wannawork.jcalendar.LocaleStrings localeStrings1;
-    private de.wannawork.jcalendar.LocaleStrings localeStrings2;
-    private de.wannawork.jcalendar.TestFrame2 testFrame21;
-    private de.wannawork.jcalendar.TestFrame2 testFrame22;
+    private javax.swing.JTable loadItemsIntoTable;
     // End of variables declaration//GEN-END:variables
 }

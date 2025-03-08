@@ -4,6 +4,8 @@
  */
 package com.mycompany.purchasemanager;
 
+import Admin.LoginFrame;
+
 /**
  *
  * @author ahmed
@@ -13,8 +15,19 @@ public class purchaseManagerMain extends javax.swing.JFrame {
     /**
      * Creates new form purchaseManagerMain
      */
-    public purchaseManagerMain() {
+    String role;
+    public purchaseManagerMain(String role) {
         initComponents();
+        this.role = role;
+    configureUIBasedOnRole();
+    }
+    
+    private void configureUIBasedOnRole() {
+        if ("Administrator".equalsIgnoreCase(role)) {
+            jLabel1.setText("You Have Access To PM Functionalities!"); // Hide AdminHeader for Administrator
+            jLabel1.setFont(jLabel1.getFont().deriveFont(18f)); // Set smaller font size
+            logoutBtn.setVisible(false);   // Hide logout button for Administrator
+        }
     }
 
     /**
@@ -31,8 +44,10 @@ public class purchaseManagerMain extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        logoutBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setText("View PO");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -69,34 +84,55 @@ public class purchaseManagerMain extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        jLabel1.setText("Purchase Manager menu");
+
+        logoutBtn.setBackground(new java.awt.Color(255, 51, 51));
+        logoutBtn.setForeground(new java.awt.Color(255, 255, 255));
+        logoutBtn.setText("Logout");
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(234, 234, 234)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(238, 238, 238)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(49, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(49, 49, 49)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         pack();
@@ -104,32 +140,43 @@ public class purchaseManagerMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        viewPO o = new viewPO(role);
+        o.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        viewCreateRequest ob = new viewCreateRequest();
+        viewCreateRequest ob = new viewCreateRequest(role);
         ob.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        viewItems ob = new viewItems();
+        viewItems ob = new viewItems(role);
         ob.setVisible(true);
         this.setVisible(false);
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        generatePO ob = new generatePO(role);
+        ob.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        viewSuppliers ob = new viewSuppliers();
+        viewSuppliers ob = new viewSuppliers(role);
         ob.setVisible(true);
         this.setVisible(false);
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
+        for (java.awt.Window window : java.awt.Window.getWindows()) {
+            window.dispose();
+        }
+        new LoginFrame().setVisible(true); // Show only the LoginFrame
+    }//GEN-LAST:event_logoutBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,7 +208,7 @@ public class purchaseManagerMain extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new purchaseManagerMain().setVisible(true);
+                
             }
         });
     }
@@ -172,5 +219,7 @@ public class purchaseManagerMain extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton logoutBtn;
     // End of variables declaration//GEN-END:variables
 }
